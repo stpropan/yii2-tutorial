@@ -75,4 +75,40 @@ class User extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Role::class, ['id' => 'role_id']);
     }
+
+    /**
+     * Функция поиска пользователя по логину и паролю
+     * @param string $login Логин пользователя
+     * @param string $password Пароль пользователя
+     * @return User|null Возвращает пользователя или null, если соответствующего пользователя нет
+     */
+    public static function login($login, $password) {
+        // метод find() возвращает Query-объект (объект построения запроса в бд)
+        // метод where([{column} => {value}]) добавляет условие и возвращает Query-объект (объект построения запроса в бд)
+        // метод one() возвращает экземпляр соответствующего класса, либо null, если не найдено ни одной записи
+        // Может быть заменено на метод findOne([{column} => {value}]), который является alias для find()->where([{column} => {value}])->one()
+        // Происходит поиск пользователя по его логину
+        $user = static::find()->where(['login' => $login])->one();
+
+        // Проверка на пользователя и на совпадение его пароля
+        if ($user && $user->validatePassword($password)) {
+            return $user;
+        }
+
+        // Иначе возвращать null
+        return null;
+    }
+    
+    /**
+     * Скопировано из User.php.dist
+     * В будущем будет изменено для сравнения пароля по хешу
+     * Validates password
+     *
+     * @param string $password password to validate
+     * @return bool if password provided is valid for current user
+     */
+    public function validatePassword($password)
+    {
+        return $this->password === $password;
+    }
 }
