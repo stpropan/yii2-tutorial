@@ -47,7 +47,11 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
                 : '<li class="nav-item">'
                     . Html::beginForm(['/site/logout'])
                     . Html::submitButton(
-                        'Logout (' . Yii::$app->user->identity->username . ')',
+                        // Yii::$app->user возвращает нам объект для работы с пользователем
+                        // Yii::$app->user->identity возвращает экземпляр модели, которую мы назначили при авторизации
+                        // В данном случае экземпляр app\models\User, у которого нет свойства username, поэтому мы его меняем на поле, которое есть
+                        // Можем убирать и вывести в другом месте по желанию
+                        'Logout (' . Yii::$app->user->identity->login . ')',
                         ['class' => 'nav-link btn btn-link logout']
                     )
                     . Html::endForm()
