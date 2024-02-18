@@ -11,6 +11,7 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use app\models\Role;
 use app\models\User;
+use app\models\UserRegister;
 
 class SiteController extends Controller
 {
@@ -135,7 +136,7 @@ class SiteController extends Controller
      */
     public function actionRegister()
     {
-        $model = new User();
+        $model = new UserRegister();
 
         if ($this->request->isPost) {
             // Можно поставить $model->validate(), для проверки валидации, но она автоматически проверяется методом $model->save()
