@@ -38,6 +38,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return [
             [['role_id'], 'integer'],
             [['login', 'password', 'email', 'phone', 'fio'], 'string', 'max' => 255],
+            ['email', 'email'],
+            ['phone', 'string', 'min' => 11, 'max' => 11],
             [['role_id'], 'exist', 'skipOnError' => true, 'targetClass' => Role::class, 'targetAttribute' => ['role_id' => 'id']],
         ];
     }

@@ -9,6 +9,9 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Role;
+use app\models\User;
+use app\models\UserRegister;
 
 class SiteController extends Controller
 {
@@ -124,5 +127,34 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    /**
+     * Creates a new User model.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @return string|\yii\web\Response
+     */
+    public function actionRegister()
+    {
+        $model = new UserRegister();
+
+        if ($this->request->isPost) {
+            // Можно поставить $model->validate(), для проверки валидации, но она автоматически проверяется методом $model->save()
+            if ($model->load($this->request->post())) {
+                // Назначаем новому пользователю id роли пользователя
+                $model->role_id = Role::USER_ROLE_ID;
+                // Переносим сохранение модели в отдельное условие, чтобы была возможность добавить id роли до сохранения
+                if ($model->save()) {
+                    // Переносим пользователя на страницу аутентификации при успешном созранении модели
+                    return $this->redirect('/site/login');
+                }
+            }
+        } else {
+            $model->loadDefaultValues();
+        }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 }
