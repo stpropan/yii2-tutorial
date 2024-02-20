@@ -38,9 +38,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
     ]);
 
     $items = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']], 
+        ['label' => 'Мои записи', 'url' => ['/report/index']],
+        ['label' => 'Создать запись', 'url' => ['/report/create']],
     ];
 
     if (Yii::$app->user->isGuest) {
