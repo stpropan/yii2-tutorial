@@ -45,6 +45,18 @@ class ReportController extends Controller
             return $this->goHome();
         }
         $searchModel = new ReportSearch();
+
+        // Если администратор, то выбирать записи с любым id пользователя
+        if ($user->isAdmin()) {
+            $dataProvider = $searchModel->search($this->request->queryParams);
+
+            return $this->render('index_admin', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
+
+        // Если не админ, выбирать только записи с таким id пользователя
         $dataProvider = $searchModel->search($this->request->queryParams, $user->id);
 
         return $this->render('index', [
