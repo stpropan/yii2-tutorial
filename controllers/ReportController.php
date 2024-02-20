@@ -72,12 +72,17 @@ class ReportController extends Controller
      */
     public function actionCreate()
     {
+        $user = User::getInstance();
+        if (!$user) {
+            return $this->goHome();
+        }
+
         $model = new Report();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
+                    return $this->redirect(['view', 'id' => $model->id]);
+                            }
         } else {
             $model->loadDefaultValues();
         }
