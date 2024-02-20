@@ -80,6 +80,10 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return $this->hasOne(Role::class, ['id' => 'role_id']);
     }
 
+    public static function getInstance() {
+        return Yii::$app->user->identity;
+    }
+
     /**
      * Функция поиска пользователя по логину и паролю
      * @param string $login Логин пользователя

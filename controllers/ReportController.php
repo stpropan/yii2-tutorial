@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Report;
 use app\models\ReportSearch;
+use app\models\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -38,6 +39,10 @@ class ReportController extends Controller
      */
     public function actionIndex()
     {
+        $user = User::getInstance();
+        if (!$user) {
+            return $this->goHome();
+        }
         $searchModel = new ReportSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
