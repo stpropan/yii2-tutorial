@@ -22,6 +22,12 @@ use Yii;
  */
 class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
 {
+
+    public function __toString()
+    {
+        return $this->login;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -78,6 +84,13 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function getRole()
     {
         return $this->hasOne(Role::class, ['id' => 'role_id']);
+    }
+
+    /**
+     * @return User|null
+     */
+    public static function getInstance() {
+        return Yii::$app->user->identity;
     }
 
     /**
@@ -158,5 +171,9 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         // Работать с токенами не требуется, но методы обязательно надо реализовать, поэтому возвращаем null
         return null;
+    }
+
+    public function isAdmin() {
+        return $this->role_id == Role::ADMIN_ROLE_ID;
     }
 }
