@@ -87,7 +87,7 @@ class ReportController extends Controller
                 $model->status_id = Status::NEW_STATUS_ID;
                 // Перенос сохранения ниже для предварительного добавления статуса и пользователя в отчет
                 if ($model->save()) {
-                    return $this->redirect(['view', 'id' => $model->id]);
+                    return $this->redirect(['index']);
                 }
             }
         } else {
@@ -116,7 +116,7 @@ class ReportController extends Controller
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect('index');
         }
 
         return $this->render('update', [
