@@ -44,7 +44,7 @@ class ReportController extends Controller
             return $this->goHome();
         }
         $searchModel = new ReportSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        $dataProvider = $searchModel->search($this->request->queryParams, $user->id);
 
         return $this->render('index', [
             'searchModel' => $searchModel,

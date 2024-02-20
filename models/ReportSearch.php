@@ -38,7 +38,7 @@ class ReportSearch extends Report
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params, $id = null)
     {
         $query = Report::find();
 
@@ -59,7 +59,7 @@ class ReportSearch extends Report
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'user_id' => $this->user_id,
+            'user_id' => ($id ?? $this->user_id),
             'status_id' => $this->status_id,
         ]);
 
