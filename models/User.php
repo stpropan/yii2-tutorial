@@ -169,4 +169,8 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         // Работать с токенами не требуется, но методы обязательно надо реализовать, поэтому возвращаем null
         return null;
     }
+
+    public function isAdmin() {
+        return $this->role_id == Role::ADMIN_ROLE_ID;
+    }
 }
