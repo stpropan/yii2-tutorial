@@ -108,6 +108,11 @@ class ReportController extends Controller
      */
     public function actionUpdate($id)
     {
+        $user = User::getInstance();
+        if (!$user || !$user->isAdmin()) {
+            return $this->goHome();
+        }
+
         $model = $this->findModel($id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
