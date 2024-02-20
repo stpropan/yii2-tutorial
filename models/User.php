@@ -86,6 +86,9 @@ class User extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         return $this->hasOne(Role::class, ['id' => 'role_id']);
     }
 
+    /**
+     * @return User|null
+     */
     public static function getInstance() {
         return Yii::$app->user->identity;
     }
