@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\Report;
 use app\models\ReportSearch;
+use app\models\Status;
 use app\models\User;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -80,9 +81,16 @@ class ReportController extends Controller
         $model = new Report();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
+            if ($model->load($this->request->post())) {
+                // Добавить id пользователя, который создал отчет
+                $model->user_id = $user->id;
+                // Добавить статус "Новая" для нового отчета
+                $model->status_id = Status::NEW_STATUS_ID;
+                // Перенос сохранения ниже для предварительного добавления статуса и пользователя в отчет
+                if ($model->save()) {
                     return $this->redirect(['view', 'id' => $model->id]);
-                            }
+                }
+            }
         } else {
             $model->loadDefaultValues();
         }
